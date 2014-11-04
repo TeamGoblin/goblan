@@ -1,11 +1,12 @@
 body {
-	background: #f3f1ea;
+	background: #111214;
 	font-family: Helvetica;
-	font-size: 14px;
-	color: #252629;
+	font-size: 16px;
+	color: #fff;
 	margin: 0px;
 	overflow: hidden;
 	overflow-y: auto;
+	line-height: 20px;
 }
 
 hr {
@@ -20,7 +21,68 @@ a {
 	color: #2ec2ac;
 }
 
-h1 { 
-	font-weight: bold; 
-	font-size: 14px;
+h1 {
+	font-size: 3.5em;
+	line-height: 40px;
+}
+
+h2 {
+	font-size: 3.0em;
+	line-height: 40px;
+}
+
+h3 {
+	font-size: 2.5em;
+	line-height: 40px;
+}
+
+h4 {
+	font-size: 2.0em;
+	line-height: 40px;
+}
+
+h5 {
+	font-size: 1.5em;
+	line-height: 40px;	
+}
+
+.container {
+	background: #1a1d22;
+	border-left: 2px dashed #030303;
+	border-right: 2px dashed #030303;
+}
+
+
+.center {
+	text-align: center;
+}
+
+#stuck {
+	background: #242529;
+	padding: 5px;
+}
+
+.red {
+	color: #ee0000;
+	font-weight: bold;
+}
+
+.blue {
+	color: #006aee;
+	font-weight: bold;
+}
+
+.green {
+	color: #00ee4e;
+	font-weight: bold;
+}
+
+.orange {
+	color: #ee7b00;
+	font-weight: bold;
+}
+
+.purple {
+	color: #d72be7;
+	font-weight: bold;
 }
