@@ -3,7 +3,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	
-	<title>NOTE GOBLIN - Real notes, Real money</title>
+	<title>GobLAN 2014 - December 19-21</title>
 
 	<link rel="icon"
 		  type="image/png"
@@ -21,17 +21,11 @@
 	<!-- Font-Awesome - http://fortawesome.github.com/Font-Awesome/ -->
 	<link rel="stylesheet" href="/i/css/font-awesome.css" type="text/css" media="screen" />		
 
-	<!-- PageDown - markdown editor -->
-	<link rel="stylesheet" href="/i/css/Markdown.Editor.css" type="text/css" media="screen" />
-
 	<!-- Bootstrap 3 Grid - http://twitter.github.com/bootstrap -->
 	<link rel="stylesheet" href="/i/css/bootstrap3.css" type="text/css" media="screen"/>
-
-	<!-- Rate It jQuery CSS - http://rateit.codeplex.com/ -->
-	<link rel="stylesheet" href="/i/css/rateit.css" type="text/css" media="screen"/>
 	
-	<!-- NoteGoblin.com - http://notegoblin.com -->
-	<link rel="stylesheet" href="/i/css/notegoblin.css" type="text/css" media="screen" />
+	<!-- GobLAN - http://teamgoblin.com -->
+	<link rel="stylesheet" href="/i/css/goblan.css" type="text/css" media="screen" />
 	
 	<!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
