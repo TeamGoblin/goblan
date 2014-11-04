@@ -46,6 +46,10 @@ h5 {
 	line-height: 40px;	
 }
 
+li {
+	margin-left: 20px;
+}
+
 .container {
 	background: #1a1d22;
 	border-left: 2px dashed #030303;
