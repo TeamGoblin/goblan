@@ -1,0 +1,9 @@
+# Ignore configuration files that may contain local settings.
+db_settings.php
+f/*
+.ssh/*
+.buildpath
+.idea/
+.project
+.settings/
+*.iml
