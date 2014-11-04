@@ -2,11 +2,11 @@
 
 /* Actions ie.) /landing/sell */
 switch ($action) {
-	default : landing(); break;
+	default : c_landing(); break;
 }
 
 /* Load the top 6 notes the user is selling and has purchased */
-function landing() {
+function c_landing() {
 	global $error;
 	global $success;
 	global $content;
