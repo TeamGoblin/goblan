@@ -70,65 +70,25 @@ if (!empty($urls[1])){
 	}
 }
 
-/* Create user if logged in */
-if (!empty($_SESSION['notegoblin_id']) || !empty($_COOKIE['notegoblin_id'])) {
-	
-	$id = isset($_SESSION['notegoblin_id']) ? $_SESSION['notegoblin_id'] : $_COOKIE['notegoblin_id'];
-	if (isset($_SESSION['notegoblin_id'])) {
-		$user = new User(array('id' => $id));
-	} else {
-		// Check that cookie ID and key match database values
-		$q = 'SELECT * FROM users WHERE id = $1 AND key = $2';
-		$result = pg_query_params($q, array($id, $_COOKIE['notegoblin_key']));
-		$row = pg_fetch_object($result);
-
-		if (!empty($row)) {
-			$user = new User(array('id' => $id)); // User values match, logged in
-			if ($user->language) {
-				include_once(base() . 'i/languages/'.$user->language.'.php');
-			}
-		} else {
-			$user = new User(array('id' => 0)); // User not logged in
-			include_once(base() . 'i/languages/en.php');
-		}
-	}	
-} else {
-	$user = new User(array('id' => 0)); // User not logged in
-	include_once(base() . 'i/languages/en.php');
-}
-
 /* Load Controller */
 if (!empty($urls[1])) {
 	$page = $urls[1];
-	if ($page == 'admin') {
-		if (file_exists(base() . 'c/admin_' . $type . '.php')){
-			include_once(base() . 'c/admin_' . $type . '.php');
-		}
+
+	if (file_exists(base() . 'c/' . $page . '.php')){
+		include_once(base() . 'c/' . $page . '.php');
 	} else {
-		if (file_exists(base() . 'c/' . $page . '.php')){
-			include_once(base() . 'c/' . $page . '.php');
-		} else {
-			// Doesn't exist, load default
-			include_once(base() . dash());
-		}
+		// Doesn't exist, load default
+		include_once(base() . landing());
 	}
+
 } else {
 	// No controller set, load default
-	include_once(base() . dash());
+	include_once(base() . landing());
 }
 
-/* @todo - verify the login part of this works without looping */
-function dash() { 
-	global $user;
-	if ($user->id == 0) {
-		if ($_COOKIE['notegoblin_login']){
-			header('Location: /login');
-		}
-			return 'c/register.php'; 
-	}
-	else { 
-		return 'c/dash.php'; 
-	}
+/* load landing page controller */
+function landing() { 
+	return 'c/landing.php';
 }
 
 /* private */

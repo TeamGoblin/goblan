@@ -38,5 +38,8 @@
 <!-- JQuery Forms -->
 <script type="text/javascript" src="/i/js/jquery.form.js"></script>
 
+<!-- Flipclock - http://flipclockjs.com -->
+<script type="text/javascript" src="/i/js/flipclock.min.js"></script>
+
 <!-- GobLAN -->
 <script type="text/javascript" src="/i/js/goblan.js"></script>

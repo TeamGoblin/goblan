@@ -24,6 +24,9 @@
 	<!-- Bootstrap 3 Grid - http://twitter.github.com/bootstrap -->
 	<link rel="stylesheet" href="/i/css/bootstrap3.css" type="text/css" media="screen"/>
 	
+	<!-- Flipclock - http://flipclockjs.com -->
+	<link rel="stylesheet" href="/i/css/flipclock.css" type="text/css" media="screen" />
+
 	<!-- GobLAN - http://teamgoblin.com -->
 	<link rel="stylesheet" href="/i/css/goblan.css" type="text/css" media="screen" />
 	
