@@ -1,0 +1,148 @@
+<?php
+include_once('db_settings.php');
+date_default_timezone_set('UTC');
+
+/* Connect to database */
+$db = pg_connect("host=".$host." dbname=".$database." user=".$name." password=".$pass." connect_timeout=5") or die('501 Database Error');
+define('FROM_SUPPORT_TEAMGOBLIN_HEADER', 'From: support@teamgoblin.com');
+define('NEW_USER_REGISTRATION_MESSAGE', 'A new user has recently signed up on NoteGoblin.com!');
+define('NEW_USER_REGISTRATION', 'New User Registration');
+define('NOTEGOBLIN_GROUP_EMAIL', serialize(array('jonte@teamgoblin.com', 'jake@teamgoblin.com')));
+
+/* Globals available for any file */
+$user = NULL; // used to store information about the current user
+$content = NULL; // used to store the main content output
+$error = NULL; // used to store errors to display at the top of the page
+$success = NULL; // used to store success to display at the top of the page
+$warning = NULL; // used to store warnings to display at the top of the page
+$info = NULL; // used to store information to display at the top of the page
+$c = array(); // used to store variables in the controller to pass to the view
+$action = ''; // used to store controller action
+$type = ''; // used to store controller type if admin page
+$tag = ''; // used to store controller tag id
+$page = ''; // used to store controller type if normal page
+
+/* Set base */
+chdir(__DIR__);
+
+if ( ! defined('DS')) {	define('DS', DIRECTORY_SEPARATOR); }
+
+/* Set base pass for including files */
+function base() { return __DIR__.DS; }
+
+/* Load helper files */
+include_once(base() . 'i/code/helpers.php'); // helpers
+include_once(base() . 'i/code/hash.php'); // bcrypt
+include_once(base() . 'i/code/curl.php'); // cURL handler
+
+/* Load models */
+include_once(base() . 'm/user.php'); // User model
+include_once(base() . 'm/db.php'); // DB model
+include_once(base() . 'm/transaction.php'); // Transaction model
+
+$urls = explode('/',$_SERVER['REQUEST_URI']);
+foreach ($urls as $key => $url) {
+	$q = stripos($url, '?');
+	if ($q !== False) {
+		$urls[$key] = substr($url, 0, $q);
+	}
+}
+
+/* Get page action, type and tag */
+if (!empty($urls[1])){
+	if ($urls[1] == 'admin') {
+		if (!empty($urls[2])){
+			$type = $urls[2];
+		}
+		if (!empty($urls[3])){
+			$action = $urls[3];
+		}
+		if (!empty($urls[4])){
+			$tag = $urls[4];
+		}
+	} else { // Not an admin page so there is no type
+		if (!empty($urls[2])){
+			$action = $urls[2];
+		}
+		if (!empty($urls[3])){
+			$tag = $urls[3];
+		}
+	}
+}
+
+/* Create user if logged in */
+if (!empty($_SESSION['notegoblin_id']) || !empty($_COOKIE['notegoblin_id'])) {
+	
+	$id = isset($_SESSION['notegoblin_id']) ? $_SESSION['notegoblin_id'] : $_COOKIE['notegoblin_id'];
+	if (isset($_SESSION['notegoblin_id'])) {
+		$user = new User(array('id' => $id));
+	} else {
+		// Check that cookie ID and key match database values
+		$q = 'SELECT * FROM users WHERE id = $1 AND key = $2';
+		$result = pg_query_params($q, array($id, $_COOKIE['notegoblin_key']));
+		$row = pg_fetch_object($result);
+
+		if (!empty($row)) {
+			$user = new User(array('id' => $id)); // User values match, logged in
+			if ($user->language) {
+				include_once(base() . 'i/languages/'.$user->language.'.php');
+			}
+		} else {
+			$user = new User(array('id' => 0)); // User not logged in
+			include_once(base() . 'i/languages/en.php');
+		}
+	}	
+} else {
+	$user = new User(array('id' => 0)); // User not logged in
+	include_once(base() . 'i/languages/en.php');
+}
+
+/* Load Controller */
+if (!empty($urls[1])) {
+	$page = $urls[1];
+	if ($page == 'admin') {
+		if (file_exists(base() . 'c/admin_' . $type . '.php')){
+			include_once(base() . 'c/admin_' . $type . '.php');
+		}
+	} else {
+		if (file_exists(base() . 'c/' . $page . '.php')){
+			include_once(base() . 'c/' . $page . '.php');
+		} else {
+			// Doesn't exist, load default
+			include_once(base() . dash());
+		}
+	}
+} else {
+	// No controller set, load default
+	include_once(base() . dash());
+}
+
+/* @todo - verify the login part of this works without looping */
+function dash() { 
+	global $user;
+	if ($user->id == 0) {
+		if ($_COOKIE['notegoblin_login']){
+			header('Location: /login');
+		}
+			return 'c/register.php'; 
+	}
+	else { 
+		return 'c/dash.php'; 
+	}
+}
+
+/* private */
+function mailer($name, $from, $to, $subject, $message)
+{
+    $eol = "\n";
+    # Common Headers
+    $headers = "From: $name <$from>".$eol;
+    $headers .= "Reply-To: $name <$from>".$eol;
+    $headers .= "Return-Path: $name <$from>".$eol;     // these two to set reply address
+    $headers .= "Message-ID:<".time()." TheSystem@".$_SERVER['SERVER_NAME'].">".$eol;
+    $headers .= "X-Mailer: PHP v".phpversion().$eol;           // These two to help avoid spam-filters
+
+    $headers2 = "-f $from";
+
+    return mail($to, $subject, $message, $headers, $headers2); //mail command :)
+}
