@@ -125,7 +125,7 @@
 				<li>Xonotic - Xonotic.org like quake (file install)</li>
 				<li>Quake 1 (file install)</li>
 				<li>Neotokyo (steam install - <a href="http://store.steampowered.com/app/244630" target="_blank">http://store.steampowered.com/app/244630/</a>)</li>
-				<li>Fistful of Frags - <a href="www.fistful-of-frags.com" target="_blank">www.fistful-of-frags.com</a> (old west guns) (steam install)</li>
+				<li>Fistful of Frags - <a href="http://www.fistful-of-frags.com" target="_blank">www.fistful-of-frags.com</a> (old west guns) (steam install)</li>
 			</ul>
 
 		<h3>Schedule</h3>
